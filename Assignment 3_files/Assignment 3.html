@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!-- saved from url=(0086)https://crystal.uta.edu/~gopikrishnav/classes/2023/spring/4308_5360/assmts/assmt3.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  
+  <title>Assignment 3</title>
+
+  
+</head><body style="background-color: rgb(231, 246, 253);">
+<h1>Assignment 3</h1>
+
+<h2>Bayesian Networks<br>
+</h2>
+
+<h3><span style="font-weight: bold;">Max possible score:</span></h3>
+
+<ul>
+
+  <li>4308: 75 Points [+25 Points EC]<br>
+  </li>
+  <li>5360: 75 Points [+25 Points EC]</li>
+</ul>
+
+<h2>Task 1<br>
+</h2>
+
+<h3><span style="font-weight: bold;">Max: [4308: 50 Points,
+5360: 50 Points]</span></h3>
+
+Consider the following Bayesian Network<br>
+
+<br>
+
+<div style="text-align: center;"><img style="width: 579px; height: 490px;" alt="BayesianNetwork from Quiz4 Prep material" src="./bnet.png"><br>
+Image 1: A Bayesian Network<br>
+</div>
+
+<br>
+
+The Variables used here are as followes<br>
+
+<ul>
+
+  <li>B : True if there is a Baseball Game on TV, False if not</li>
+  <li>G: True if George watches TV, False if not</li>
+  <li>C: True if George is out of Cat Food, False if not</li>
+  <li>F: True if George feeds his cat, False if not.<br>
+  </li>
+</ul>
+
+Let us say you are given some Training Data which represents what
+happens over a period of time (For example: <a href="https://crystal.uta.edu/~gopikrishnav/classes/2023/spring/4308_5360/assmts/assmt3_files/training_data.txt" target="_blank">This</a> file contains what
+happens every evening over one specific year). Your Task is to learn
+the conditonal probabilty tables for the bayesian network from the
+training data. The training data will be formatted as follows:<br>
+
+<ul style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-weight: normal; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px;">
+
+  <li><a>The first number is 0 if there is no baseball game on TV (B is
+false), and 1 if there is a baseball game on TV (B is true).</a></li>
+  <li><a>The second number is 0 if George does not watch TV (G is
+false), and 1 if George watches TV (G is true).</a></li>
+  <li><a>The third number is 0 if George is not out of cat food (C is
+false), and 1 if George is out of cat food (C is true).</a></li>
+  <li><a>The fourth number is 0 if George does not feed the cat (F is
+false), and 1 if George feeds the cat (F is true).</a></li>
+</ul>
+
+Your program should be called bnet and the command line
+invocation should follow the following format:<br>
+
+<br>
+
+<span style="font-style: italic;">bnet.py
+&lt;training_data&gt;</span><br>
+
+<ul>
+
+  <li>&lt;training_data&gt; text file with training data.</li>
+</ul>
+
+You can display the calculated probabilty values in standard output.<br>
+<br>
+<hr>
+<h2>Task 2<br>
+</h2>
+
+<h3><span style="font-weight: bold;">Max: [4308: 25 Points,
+5360: 25 Points]</span></h3>
+Add functionality to the code for Task 1 to also be able to calculate
+any value in the JPD for this domain using the conditional probabilty
+distributions calculated in Task 1. [Note: Correct implementation of
+this section will also give credit for Task 1]<br>
+<br>
+
+Your program's command line
+invocation will be changed to:<br>
+
+
+<br>
+
+
+<span style="font-style: italic;">bnet.py
+&lt;training_data&gt; &lt;Bt/Bf&gt; &lt;Gt/Gf&gt; &lt;Ct/Cf&gt; &lt;Ft/Ff&gt;</span><br>
+
+<ul>
+<li>&lt;training_data&gt; text file with training data.</li>
+  <li>Bt if B is true, Bf if B is false</li>
+  <li>Gt if G is true, Gf if G is false</li>
+  <li>Ct if C is true, Cf if C is false</li>
+  <li>Ft if F is true, Ff if F is false<br>
+  </li>
+</ul>
+Sample Invocation: <span style="font-style: italic;">bnet.py training_data.txt Bt Gf Ct Ff</span>&nbsp; Train the Bayesian Network and use it to calculate P(B=t, G=f, C=t, F=f)<br>
+<br>
+You can display the calculated probabilty values in standard output.<br>
+
+<br>
+
+<hr>
+<h2>Task 3 [Optional Extra Credit]<br>
+</h2>
+
+
+<h3><span style="font-weight: bold;">Max: [4308: 25 Points,
+5360: 25 Points]</span></h3>
+Add functionality to the code for Task 2 to also be able to calculate
+the probabilty for any event given evidence (if available) using
+inference by enumeration. [Note: Correct implementation of this section
+will also give credit for Task 1 and 2]<br>
+<br>
+
+Your program's command line
+invocation will be changed to:<br>
+
+
+
+<br>
+
+
+
+<span style="font-style: italic;">bnet.py
+&lt;training_data&gt; &lt;query variable values&gt; [given &lt;evidence variable values&gt;]</span><br>
+<ul>
+<li>&lt;training_data&gt; text file with training data.</li><li>Values of Query Variable [Format is same as in Task 2]<br>
+</li><li>Values of Evidence Variable (if any) [Format is same as in Task 2]</li>
+</ul>
+Sample Invocations:<br>
+<ul>
+  <li><span style="font-style: italic;">bnet.py training_data.txt Bt Gf given Ff</span>&nbsp; Train the Bayesian Network and use it to calculate P(B=t, G=f | F=f)</li>
+  <li><span style="font-style: italic;">bnet.py training_data.txt Bt Ff</span>&nbsp; Train the Bayesian Network and use it to calculate P(B=t, F=f)</li>
+</ul>
+You can display the calculated probabilty values in standard output.<br>
+<br>
+
+
+
+
+<hr>
+<h2>How to submit</h2>
+
+Implementations in C, C++, Java, and Python will
+be accepted. Points will be taken off
+for failure to comply
+with this requirement unless previously cleared with the Instructor.<br>
+
+<br>
+
+Create a ZIPPED
+directory called &lt;net-id&gt;_assmt2.zip (no other
+forms
+of compression
+accepted, contact the instructor or TA if you do not know how to
+produce .zip files).<br>
+
+The directory should contain the source code for the task (no need for
+any compiled binaries). Each
+folder should also contain a file called readme.txt, which
+should specify precisely:<br>
+
+<ul>
+
+  <li>Name and UTA ID of the student.</li>
+  <li>What programming language is used for this task. (Make sure to
+also give version and subversion numbers)<br>
+  </li>
+  <li>How the code is structured.</li>
+  <li>How to run the code, including very specific compilation
+instructions,
+if compilation is needed. Instructions such as "compile using g++" are
+NOT considered specific if the TA needs to do additional steps to get
+your code to run.</li>
+  <ul>
+    <li>If your code will run on the ACS Omega (not required) make a
+note of it in the readme file.<br>
+    </li>
+  </ul>
+  <li>Insufficient or unclear instructions will be penalized.</li>
+  <li><span style="font-weight: bold;">Code that
+the TA cannot run gets AT MOST 75% credit (depending on if the student
+is able to get it to run during a Demo session)</span>. </li>
+</ul>
+
+<br>
+
+<br>
+
+</body></html>
