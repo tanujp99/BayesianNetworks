@@ -17,6 +17,7 @@ for i in range (2, len(sys.argv)):
         query_variables[sys.argv[i][0]] = int(sys.argv[i][1] == "t")
 
 print("B: Baseball Game on TV\nG: George watches TV\nC: George is out of Cat Food\nF: George feeds his cat\n")
+
 # Load training data
 data = []
 with open(training_file, "r") as f:
@@ -43,12 +44,10 @@ for observation in data:
 
 # Calculate the conditional probabilities
 probabilities = {}
-
 for variable in ['B', 'G', 'C', 'F']:
     probabilities[variable] = {}
     for value in [0, 1]:
         probabilities[variable][value] = counts[variable][value] / len(data)
-
 for variables in [('B', 'G'),('F', 'G'), ('C', 'F')]:
     probabilities[variables] = {}
     for x in [0,1]:
@@ -68,13 +67,6 @@ for variables in [ ('B', 'C', 'F', 'G')]:
                 for t in [0,1]:
                     probabilities[variables][(x,y,z,t)] = counts[variables][(x,y,z,t)] / len(data)
 # print(probabilities)
-
-network = {
-    'B': (),
-    'G': ('B',),
-    'F': ('G', 'C'),
-    'C': ()
-}
 
 # Define function to perform inference by enumeration
 def numcalc(queryl, query_variables,altset):
@@ -101,39 +93,19 @@ def enumerate(query_variables):
     'alt3' : [(0, 0, 0), (0, 0, 1), (0, 1, 0), (0, 1, 1), (1, 0, 0), (1, 0, 1), (1, 1, 0), (1, 1, 1)],
     'alt2' : [[0, 0], [0, 1], [1, 0], [1, 1]],
     'alt1' : [[0],[1]],
-    'alt0': [1] }
+    'alt0': [int] }
     altset = alts[f'alt{alternate}']
     for w in altset:
-        prob = 1
         num_calc = numcalc(queryl, query_variables, w)
-        for x in ['B', 'C', 'F', 'G']:
-            searchl = []
-            searchk = []
-            searchl += tuple(x)
-            for i in network[x]:
-                searchl += tuple(i)
-            searchl = sorted(searchl)
-            for j in searchl:
-                if len(searchl)>1:
-                    searchk.append(num_calc[j])
-                else:
-                    searchk = num_calc[j]
-            searchl = tuple(searchl) if len(searchl)>1 else searchl[0]
-            searchk = tuple(searchk) if len(searchl)>1 else searchk
-            # print(searchl)
-            # print(searchk)
-            prob = prob * probabilities[searchl][searchk]
-            # print(prob)
-            searchl = ()
-        probability += prob
+        searchl = tuple(num_calc.keys())
+        searchk = tuple(num_calc.values())
+        probability += probabilities[searchl][searchk]
+        # print(probability)
     print("----------------------",probability)
-    
     return probability
+
 # Define the function to calculate the conditional probabilities using inference by enumeration
-
-
 def calculate_conditional_probability(query_variables, evidence_variables):
-
     numerator = {**query_variables, **evidence_variables}
     denominator = evidence_variables
 
@@ -145,6 +117,7 @@ def calculate_conditional_probability(query_variables, evidence_variables):
     else:
         ccd = (num_prob/den_prob)
     return ccd
+
 # Perform inference by enumeration
 if evidence_variables:
     probability = calculate_conditional_probability(query_variables, evidence_variables)
@@ -152,7 +125,6 @@ else:
     probability = calculate_conditional_probability(query_variables, {})
 
 # Print the probability
-if query_variables:
-    query_string = ", ".join([f"{variable}={bool(value)}" for variable, value in query_variables.items()])
-    evidence_string = ", ".join([f"{variable}={bool(value)}" for variable, value in evidence_variables.items()])
-    print(f"P({query_string}{' | ' if given else ''}{evidence_string}) = {probability}\n")
+query_string = ", ".join([f"{variable}={bool(value)}" for variable, value in query_variables.items()])
+evidence_string = ", ".join([f"{variable}={bool(value)}" for variable, value in evidence_variables.items()])
+print(f"\nP({query_string}{' | ' if given else ''}{evidence_string}) = {probability}\n")
